@@ -344,10 +344,11 @@ function Invoke-NegativeRun {
     $failed = $true
   }
   $reportRoot = Join-Path $outputRoot 'reports'
-  $residual = if (Test-Path -LiteralPath $reportRoot) {
-    @(Get-ChildItem -LiteralPath $reportRoot -File | Select-Object -ExpandProperty Name)
-  } else {
-    @()
+  $residual = [System.Collections.Generic.List[string]]::new()
+  if (Test-Path -LiteralPath $reportRoot) {
+    foreach ($name in Get-ChildItem -LiteralPath $reportRoot -File | Select-Object -ExpandProperty Name) {
+      $residual.Add($name)
+    }
   }
   Assert-True $failed 'missing compressed log did not fail'
   Assert-True ($residual.Count -eq 0) 'negative run left report files'
