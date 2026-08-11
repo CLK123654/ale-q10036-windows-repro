@@ -1,0 +1,149 @@
+{
+  "task_asset_id": "node_edge_log_session_report",
+  "node_version": "v24.14.0",
+  "attachment_sha256": {
+    "输入数据包.zip": "2c6344c5b515da39d4a125e4bec672909c378fd0bc9da8bc2b04876235d7046d",
+    "reference.zip": "e09b81b44d1f2ef2bc958cdd200f4c95ab0b3e604dcec20bb7f055ad6ca935f4",
+    "关键标准答案.xlsx": "013b1e9f4658630ce85c65b4b7992e0b80c0a7779d992939551b0e9b2cb8fc9e",
+    "任务规格转化.xlsx": "2a71a0bd57e85344f481a01a503fbf32bd565a65e187a58dbd49ef69af4e2981"
+  },
+  "pass": true,
+  "clean_runs": [
+    {
+      "directory_name": "第一轮 中文 空格",
+      "input_tree_sha256": "9aab0262d9ce3653a946ca2d737fc5cd2b4fcd9f39715d108715d6544ebd0571",
+      "report_sha256": {
+        "normalized_events.ndjson": "baeec67f9624a7969062913c24ee9ec1d5a25aa1bdfab1656860f045f46c22d2",
+        "suppressed_lines.csv": "d8d0e19030bd792a089204b98fc69874fc83669e31ecbb28ef98f34b5ec577a1",
+        "session_inventory.csv": "395124207b4f856e59bef40e7206a567f40b6fe6b2ad29ffc15e572143aac727",
+        "hourly_route_metrics.csv": "96dbfe5e30249766365de5616efecbaf6d724679d7d29089e39126502cd744fa",
+        "run_summary.json": "e9bc070c9ef1fcee57260e9c021258dd7bfc67cde59f00a4c77fa2c667008180"
+      },
+      "semantics": {
+        "normalized_events": [
+          "{\"event_id\":\"E001\",\"occurred_at_utc\":\"2026-07-29T00:00:10Z\",\"visitor_key\":\"dd322aca5d7abd8e\",\"session_id\":\"dd322aca5d7abd8e-s01\",\"route_key\":\"home\",\"route_group\":\"home\",\"canonical_path\":\"/\",\"status\":200,\"status_class\":\"2xx\",\"bytes\":1200,\"duration_ms\":80}",
+          "{\"event_id\":\"E002\",\"occurred_at_utc\":\"2026-07-29T00:03:00Z\",\"visitor_key\":\"dd322aca5d7abd8e\",\"session_id\":\"dd322aca5d7abd8e-s01\",\"route_key\":\"item\",\"route_group\":\"commerce\",\"canonical_path\":\"/shop/item/:id\",\"status\":200,\"status_class\":\"2xx\",\"bytes\":3500,\"duration_ms\":125}",
+          "{\"event_id\":\"E003\",\"occurred_at_utc\":\"2026-07-29T00:14:20Z\",\"visitor_key\":\"dd322aca5d7abd8e\",\"session_id\":\"dd322aca5d7abd8e-s02\",\"route_key\":\"checkout\",\"route_group\":\"commerce\",\"canonical_path\":\"/checkout\",\"status\":500,\"status_class\":\"5xx\",\"bytes\":900,\"duration_ms\":420}",
+          "{\"event_id\":\"E004\",\"occurred_at_utc\":\"2026-07-29T00:05:00Z\",\"visitor_key\":\"9e921c7492d349d7\",\"session_id\":\"9e921c7492d349d7-s01\",\"route_key\":\"video\",\"route_group\":\"video\",\"canonical_path\":\"/video/:id\",\"status\":200,\"status_class\":\"2xx\",\"bytes\":5000,\"duration_ms\":200}",
+          "{\"event_id\":\"E005\",\"occurred_at_utc\":\"2026-07-29T00:08:00Z\",\"visitor_key\":\"9e921c7492d349d7\",\"session_id\":\"9e921c7492d349d7-s01\",\"route_key\":\"video\",\"route_group\":\"video\",\"canonical_path\":\"/video/:id\",\"status\":200,\"status_class\":\"2xx\",\"bytes\":5100,\"duration_ms\":220}",
+          "{\"event_id\":\"E006\",\"occurred_at_utc\":\"2026-07-29T00:25:00Z\",\"visitor_key\":\"9e921c7492d349d7\",\"session_id\":\"9e921c7492d349d7-s02\",\"route_key\":\"search\",\"route_group\":\"search\",\"canonical_path\":\"/search\",\"status\":200,\"status_class\":\"2xx\",\"bytes\":1800,\"duration_ms\":95}",
+          "{\"event_id\":\"E007\",\"occurred_at_utc\":\"2026-07-29T00:11:00Z\",\"visitor_key\":\"f7d644a204468ea9\",\"session_id\":\"f7d644a204468ea9-s01\",\"route_key\":\"item\",\"route_group\":\"commerce\",\"canonical_path\":\"/shop/item/:id\",\"status\":404,\"status_class\":\"4xx\",\"bytes\":700,\"duration_ms\":60}",
+          "{\"event_id\":\"E009\",\"occurred_at_utc\":\"2026-07-29T00:20:00Z\",\"visitor_key\":\"abb4d4df524899e4\",\"session_id\":\"abb4d4df524899e4-s01\",\"route_key\":\"home\",\"route_group\":\"home\",\"canonical_path\":\"/\",\"status\":200,\"status_class\":\"2xx\",\"bytes\":1100,\"duration_ms\":90}",
+          "{\"event_id\":\"E016\",\"occurred_at_utc\":\"2026-07-29T00:30:00Z\",\"visitor_key\":\"dd322aca5d7abd8e\",\"session_id\":\"dd322aca5d7abd8e-s03\",\"route_key\":\"item\",\"route_group\":\"commerce\",\"canonical_path\":\"/shop/item/:id\",\"status\":200,\"status_class\":\"2xx\",\"bytes\":3300,\"duration_ms\":110}",
+          "{\"event_id\":\"E017\",\"occurred_at_utc\":\"2026-07-29T00:45:00Z\",\"visitor_key\":\"365e1aa9a6cf2ffc\",\"session_id\":\"365e1aa9a6cf2ffc-s01\",\"route_key\":\"search\",\"route_group\":\"search\",\"canonical_path\":\"/search\",\"status\":200,\"status_class\":\"2xx\",\"bytes\":1600,\"duration_ms\":70}"
+        ],
+        "suppressed_lines": [
+          "{\"line_no\":\"11\",\"event_id\":\"E010\",\"reason\":\"consent_expired\",\"detail\":\"event time outside consent window\"}",
+          "{\"line_no\":\"12\",\"event_id\":\"E011\",\"reason\":\"deletion_requested\",\"detail\":\"visitor has deletion request\"}",
+          "{\"line_no\":\"13\",\"event_id\":\"E012\",\"reason\":\"route_unmatched\",\"detail\":\"/internal/debug\"}",
+          "{\"line_no\":\"14\",\"event_id\":\"E013\",\"reason\":\"bot_user_agent\",\"detail\":\"Googlebot/2.1\"}",
+          "{\"line_no\":\"15\",\"event_id\":\"E014\",\"reason\":\"bot_asn\",\"detail\":\"AS-BOT-77\"}",
+          "{\"line_no\":\"16\",\"event_id\":\"E015\",\"reason\":\"outside_report_window\",\"detail\":\"2026-07-29T01:05:00Z not in half-open report window\"}",
+          "{\"line_no\":\"2\",\"event_id\":\"E002\",\"reason\":\"superseded_event_version\",\"detail\":\"kept newer line 18\"}",
+          "{\"line_no\":\"6\",\"event_id\":\"\",\"reason\":\"malformed_json\",\"detail\":\"line is not valid JSON\"}",
+          "{\"line_no\":\"9\",\"event_id\":\"E008\",\"reason\":\"consent_denied\",\"detail\":\"allow_tracking is not true\"}"
+        ],
+        "session_inventory": [
+          "{\"session_id\":\"365e1aa9a6cf2ffc-s01\",\"visitor_key\":\"365e1aa9a6cf2ffc\",\"first_event_utc\":\"2026-07-29T00:45:00Z\",\"last_event_utc\":\"2026-07-29T00:45:00Z\",\"event_count\":\"1\"}",
+          "{\"session_id\":\"9e921c7492d349d7-s01\",\"visitor_key\":\"9e921c7492d349d7\",\"first_event_utc\":\"2026-07-29T00:05:00Z\",\"last_event_utc\":\"2026-07-29T00:08:00Z\",\"event_count\":\"2\"}",
+          "{\"session_id\":\"9e921c7492d349d7-s02\",\"visitor_key\":\"9e921c7492d349d7\",\"first_event_utc\":\"2026-07-29T00:25:00Z\",\"last_event_utc\":\"2026-07-29T00:25:00Z\",\"event_count\":\"1\"}",
+          "{\"session_id\":\"abb4d4df524899e4-s01\",\"visitor_key\":\"abb4d4df524899e4\",\"first_event_utc\":\"2026-07-29T00:20:00Z\",\"last_event_utc\":\"2026-07-29T00:20:00Z\",\"event_count\":\"1\"}",
+          "{\"session_id\":\"dd322aca5d7abd8e-s01\",\"visitor_key\":\"dd322aca5d7abd8e\",\"first_event_utc\":\"2026-07-29T00:00:10Z\",\"last_event_utc\":\"2026-07-29T00:03:00Z\",\"event_count\":\"2\"}",
+          "{\"session_id\":\"dd322aca5d7abd8e-s02\",\"visitor_key\":\"dd322aca5d7abd8e\",\"first_event_utc\":\"2026-07-29T00:14:20Z\",\"last_event_utc\":\"2026-07-29T00:14:20Z\",\"event_count\":\"1\"}",
+          "{\"session_id\":\"dd322aca5d7abd8e-s03\",\"visitor_key\":\"dd322aca5d7abd8e\",\"first_event_utc\":\"2026-07-29T00:30:00Z\",\"last_event_utc\":\"2026-07-29T00:30:00Z\",\"event_count\":\"1\"}",
+          "{\"session_id\":\"f7d644a204468ea9-s01\",\"visitor_key\":\"f7d644a204468ea9\",\"first_event_utc\":\"2026-07-29T00:11:00Z\",\"last_event_utc\":\"2026-07-29T00:11:00Z\",\"event_count\":\"1\"}"
+        ],
+        "hourly_route_metrics": [
+          "{\"hour_utc\":\"2026-07-29T00:00:00Z\",\"route_group\":\"commerce\",\"event_count\":\"4\",\"session_count\":\"4\",\"byte_sum\":\"8400\",\"status_5xx\":\"1\",\"p95_duration_ms\":\"420\"}",
+          "{\"hour_utc\":\"2026-07-29T00:00:00Z\",\"route_group\":\"home\",\"event_count\":\"2\",\"session_count\":\"2\",\"byte_sum\":\"2300\",\"status_5xx\":\"0\",\"p95_duration_ms\":\"90\"}",
+          "{\"hour_utc\":\"2026-07-29T00:00:00Z\",\"route_group\":\"search\",\"event_count\":\"2\",\"session_count\":\"2\",\"byte_sum\":\"3400\",\"status_5xx\":\"0\",\"p95_duration_ms\":\"95\"}",
+          "{\"hour_utc\":\"2026-07-29T00:00:00Z\",\"route_group\":\"video\",\"event_count\":\"2\",\"session_count\":\"1\",\"byte_sum\":\"10100\",\"status_5xx\":\"0\",\"p95_duration_ms\":\"220\"}"
+        ],
+        "run_summary": [
+          "accepted_event_count=10",
+          "metric_rows=4",
+          "parsed_json_lines=18",
+          "raw_log_lines=19",
+          "session_count=8",
+          "status_5xx_total=1",
+          "suppression_count=9",
+          "total_bytes=24200"
+        ]
+      },
+      "exit_code": 0
+    },
+    {
+      "directory_name": "第二轮 中文 空格",
+      "input_tree_sha256": "9aab0262d9ce3653a946ca2d737fc5cd2b4fcd9f39715d108715d6544ebd0571",
+      "report_sha256": {
+        "normalized_events.ndjson": "baeec67f9624a7969062913c24ee9ec1d5a25aa1bdfab1656860f045f46c22d2",
+        "suppressed_lines.csv": "d8d0e19030bd792a089204b98fc69874fc83669e31ecbb28ef98f34b5ec577a1",
+        "session_inventory.csv": "395124207b4f856e59bef40e7206a567f40b6fe6b2ad29ffc15e572143aac727",
+        "hourly_route_metrics.csv": "96dbfe5e30249766365de5616efecbaf6d724679d7d29089e39126502cd744fa",
+        "run_summary.json": "e9bc070c9ef1fcee57260e9c021258dd7bfc67cde59f00a4c77fa2c667008180"
+      },
+      "semantics": {
+        "normalized_events": [
+          "{\"event_id\":\"E001\",\"occurred_at_utc\":\"2026-07-29T00:00:10Z\",\"visitor_key\":\"dd322aca5d7abd8e\",\"session_id\":\"dd322aca5d7abd8e-s01\",\"route_key\":\"home\",\"route_group\":\"home\",\"canonical_path\":\"/\",\"status\":200,\"status_class\":\"2xx\",\"bytes\":1200,\"duration_ms\":80}",
+          "{\"event_id\":\"E002\",\"occurred_at_utc\":\"2026-07-29T00:03:00Z\",\"visitor_key\":\"dd322aca5d7abd8e\",\"session_id\":\"dd322aca5d7abd8e-s01\",\"route_key\":\"item\",\"route_group\":\"commerce\",\"canonical_path\":\"/shop/item/:id\",\"status\":200,\"status_class\":\"2xx\",\"bytes\":3500,\"duration_ms\":125}",
+          "{\"event_id\":\"E003\",\"occurred_at_utc\":\"2026-07-29T00:14:20Z\",\"visitor_key\":\"dd322aca5d7abd8e\",\"session_id\":\"dd322aca5d7abd8e-s02\",\"route_key\":\"checkout\",\"route_group\":\"commerce\",\"canonical_path\":\"/checkout\",\"status\":500,\"status_class\":\"5xx\",\"bytes\":900,\"duration_ms\":420}",
+          "{\"event_id\":\"E004\",\"occurred_at_utc\":\"2026-07-29T00:05:00Z\",\"visitor_key\":\"9e921c7492d349d7\",\"session_id\":\"9e921c7492d349d7-s01\",\"route_key\":\"video\",\"route_group\":\"video\",\"canonical_path\":\"/video/:id\",\"status\":200,\"status_class\":\"2xx\",\"bytes\":5000,\"duration_ms\":200}",
+          "{\"event_id\":\"E005\",\"occurred_at_utc\":\"2026-07-29T00:08:00Z\",\"visitor_key\":\"9e921c7492d349d7\",\"session_id\":\"9e921c7492d349d7-s01\",\"route_key\":\"video\",\"route_group\":\"video\",\"canonical_path\":\"/video/:id\",\"status\":200,\"status_class\":\"2xx\",\"bytes\":5100,\"duration_ms\":220}",
+          "{\"event_id\":\"E006\",\"occurred_at_utc\":\"2026-07-29T00:25:00Z\",\"visitor_key\":\"9e921c7492d349d7\",\"session_id\":\"9e921c7492d349d7-s02\",\"route_key\":\"search\",\"route_group\":\"search\",\"canonical_path\":\"/search\",\"status\":200,\"status_class\":\"2xx\",\"bytes\":1800,\"duration_ms\":95}",
+          "{\"event_id\":\"E007\",\"occurred_at_utc\":\"2026-07-29T00:11:00Z\",\"visitor_key\":\"f7d644a204468ea9\",\"session_id\":\"f7d644a204468ea9-s01\",\"route_key\":\"item\",\"route_group\":\"commerce\",\"canonical_path\":\"/shop/item/:id\",\"status\":404,\"status_class\":\"4xx\",\"bytes\":700,\"duration_ms\":60}",
+          "{\"event_id\":\"E009\",\"occurred_at_utc\":\"2026-07-29T00:20:00Z\",\"visitor_key\":\"abb4d4df524899e4\",\"session_id\":\"abb4d4df524899e4-s01\",\"route_key\":\"home\",\"route_group\":\"home\",\"canonical_path\":\"/\",\"status\":200,\"status_class\":\"2xx\",\"bytes\":1100,\"duration_ms\":90}",
+          "{\"event_id\":\"E016\",\"occurred_at_utc\":\"2026-07-29T00:30:00Z\",\"visitor_key\":\"dd322aca5d7abd8e\",\"session_id\":\"dd322aca5d7abd8e-s03\",\"route_key\":\"item\",\"route_group\":\"commerce\",\"canonical_path\":\"/shop/item/:id\",\"status\":200,\"status_class\":\"2xx\",\"bytes\":3300,\"duration_ms\":110}",
+          "{\"event_id\":\"E017\",\"occurred_at_utc\":\"2026-07-29T00:45:00Z\",\"visitor_key\":\"365e1aa9a6cf2ffc\",\"session_id\":\"365e1aa9a6cf2ffc-s01\",\"route_key\":\"search\",\"route_group\":\"search\",\"canonical_path\":\"/search\",\"status\":200,\"status_class\":\"2xx\",\"bytes\":1600,\"duration_ms\":70}"
+        ],
+        "suppressed_lines": [
+          "{\"line_no\":\"11\",\"event_id\":\"E010\",\"reason\":\"consent_expired\",\"detail\":\"event time outside consent window\"}",
+          "{\"line_no\":\"12\",\"event_id\":\"E011\",\"reason\":\"deletion_requested\",\"detail\":\"visitor has deletion request\"}",
+          "{\"line_no\":\"13\",\"event_id\":\"E012\",\"reason\":\"route_unmatched\",\"detail\":\"/internal/debug\"}",
+          "{\"line_no\":\"14\",\"event_id\":\"E013\",\"reason\":\"bot_user_agent\",\"detail\":\"Googlebot/2.1\"}",
+          "{\"line_no\":\"15\",\"event_id\":\"E014\",\"reason\":\"bot_asn\",\"detail\":\"AS-BOT-77\"}",
+          "{\"line_no\":\"16\",\"event_id\":\"E015\",\"reason\":\"outside_report_window\",\"detail\":\"2026-07-29T01:05:00Z not in half-open report window\"}",
+          "{\"line_no\":\"2\",\"event_id\":\"E002\",\"reason\":\"superseded_event_version\",\"detail\":\"kept newer line 18\"}",
+          "{\"line_no\":\"6\",\"event_id\":\"\",\"reason\":\"malformed_json\",\"detail\":\"line is not valid JSON\"}",
+          "{\"line_no\":\"9\",\"event_id\":\"E008\",\"reason\":\"consent_denied\",\"detail\":\"allow_tracking is not true\"}"
+        ],
+        "session_inventory": [
+          "{\"session_id\":\"365e1aa9a6cf2ffc-s01\",\"visitor_key\":\"365e1aa9a6cf2ffc\",\"first_event_utc\":\"2026-07-29T00:45:00Z\",\"last_event_utc\":\"2026-07-29T00:45:00Z\",\"event_count\":\"1\"}",
+          "{\"session_id\":\"9e921c7492d349d7-s01\",\"visitor_key\":\"9e921c7492d349d7\",\"first_event_utc\":\"2026-07-29T00:05:00Z\",\"last_event_utc\":\"2026-07-29T00:08:00Z\",\"event_count\":\"2\"}",
+          "{\"session_id\":\"9e921c7492d349d7-s02\",\"visitor_key\":\"9e921c7492d349d7\",\"first_event_utc\":\"2026-07-29T00:25:00Z\",\"last_event_utc\":\"2026-07-29T00:25:00Z\",\"event_count\":\"1\"}",
+          "{\"session_id\":\"abb4d4df524899e4-s01\",\"visitor_key\":\"abb4d4df524899e4\",\"first_event_utc\":\"2026-07-29T00:20:00Z\",\"last_event_utc\":\"2026-07-29T00:20:00Z\",\"event_count\":\"1\"}",
+          "{\"session_id\":\"dd322aca5d7abd8e-s01\",\"visitor_key\":\"dd322aca5d7abd8e\",\"first_event_utc\":\"2026-07-29T00:00:10Z\",\"last_event_utc\":\"2026-07-29T00:03:00Z\",\"event_count\":\"2\"}",
+          "{\"session_id\":\"dd322aca5d7abd8e-s02\",\"visitor_key\":\"dd322aca5d7abd8e\",\"first_event_utc\":\"2026-07-29T00:14:20Z\",\"last_event_utc\":\"2026-07-29T00:14:20Z\",\"event_count\":\"1\"}",
+          "{\"session_id\":\"dd322aca5d7abd8e-s03\",\"visitor_key\":\"dd322aca5d7abd8e\",\"first_event_utc\":\"2026-07-29T00:30:00Z\",\"last_event_utc\":\"2026-07-29T00:30:00Z\",\"event_count\":\"1\"}",
+          "{\"session_id\":\"f7d644a204468ea9-s01\",\"visitor_key\":\"f7d644a204468ea9\",\"first_event_utc\":\"2026-07-29T00:11:00Z\",\"last_event_utc\":\"2026-07-29T00:11:00Z\",\"event_count\":\"1\"}"
+        ],
+        "hourly_route_metrics": [
+          "{\"hour_utc\":\"2026-07-29T00:00:00Z\",\"route_group\":\"commerce\",\"event_count\":\"4\",\"session_count\":\"4\",\"byte_sum\":\"8400\",\"status_5xx\":\"1\",\"p95_duration_ms\":\"420\"}",
+          "{\"hour_utc\":\"2026-07-29T00:00:00Z\",\"route_group\":\"home\",\"event_count\":\"2\",\"session_count\":\"2\",\"byte_sum\":\"2300\",\"status_5xx\":\"0\",\"p95_duration_ms\":\"90\"}",
+          "{\"hour_utc\":\"2026-07-29T00:00:00Z\",\"route_group\":\"search\",\"event_count\":\"2\",\"session_count\":\"2\",\"byte_sum\":\"3400\",\"status_5xx\":\"0\",\"p95_duration_ms\":\"95\"}",
+          "{\"hour_utc\":\"2026-07-29T00:00:00Z\",\"route_group\":\"video\",\"event_count\":\"2\",\"session_count\":\"1\",\"byte_sum\":\"10100\",\"status_5xx\":\"0\",\"p95_duration_ms\":\"220\"}"
+        ],
+        "run_summary": [
+          "accepted_event_count=10",
+          "metric_rows=4",
+          "parsed_json_lines=18",
+          "raw_log_lines=19",
+          "session_count=8",
+          "status_5xx_total=1",
+          "suppression_count=9",
+          "total_bytes=24200"
+        ]
+      },
+      "exit_code": 0
+    }
+  ],
+  "mutation": {
+    "accepted_event_count": 10,
+    "session_count": 5,
+    "pass": true
+  },
+  "negative": {
+    "nonzero_exit": true,
+    "residual_reports": [],
+    "pass": true
+  }
+}

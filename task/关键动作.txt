@@ -1,0 +1,6 @@
+读取privacy_policy.json、consent_windows.csv、route_catalog.csv和session_reporting_contract.md，确认报表窗口、授权、匿名键、路由与会话口径。
+使用Node.js的文件流、Gzip解压流和逐行读取接口消费edge_access.ndjson.gz，记录坏行后继续处理后续内容。
+按event_id保留updated_at_utc最新的版本，将被替换版本纳入抑制清单，再按隐私规则裁决有效事件。
+去除查询参数并匹配路由目录，使用HMAC-SHA256生成匿名访客键，确保原始visitor_id不会进入交付文件。
+按匿名访客和发生时间切分会话，生成规范事件、抑制记录、会话清单和小时路由指标。
+生成run_summary.json并复核原始行数、接受数、抑制数、会话数及小时指标之间的对应关系。

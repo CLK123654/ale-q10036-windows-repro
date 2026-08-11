@@ -1,0 +1,5 @@
+内容分发团队的小时流量报表来自边缘网关压缩日志。旧脚本一次读入整个文件，遇到坏行便停止，也没有处理事件更新版本、访客授权和会话间隔，导致报表混入不应追踪的访问。
+
+请使用Node.js处理input_data中的压缩日志、隐私策略、授权窗口和路由目录。rules/session_reporting_contract.md规定事件版本、隐私裁决、路由匹配、匿名键、会话切分和小时指标口径，starter/process_edge_logs.mjs是需要替换的故障版本。程序应从Gzip流逐行读取日志，单行格式错误只进入抑制清单，不中断后续记录。原始visitor_id只能参与授权匹配和匿名键计算，不能写入output中的任何文件。
+
+在output/src提交process_edge_logs.mjs，在output根目录提交run.ps1。output/reports中提交normalized_events.ndjson、suppressed_lines.csv、session_inventory.csv、hourly_route_metrics.csv和run_summary.json。流量分析人员需要前三类统计结果，隐私审核人员需要抑制清单，数据平台值班人员使用运行摘要核对输入与输出是否守恒。运行只读取本地文件，不调用边缘网关或其它外部服务。

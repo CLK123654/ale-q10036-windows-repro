@@ -1,0 +1,7 @@
+Windows11、macOS13及主流64位Linux均可运行。Windows11直接使用Node.js24LTS和PowerShell7，不依赖WSL、容器、Bash或POSIX Shell。
+
+主软件是Node.js。Gzip流解压、readline异步迭代、HMAC-SHA256和文件系统操作均由Node.js内置模块完成，不需要第三方npm包。Windows入口为run.ps1，macOS和Linux可以直接调用process_edge_logs.mjs并传入相同的输入、输出目录。
+
+安装Node.js24LTS时可以联网，正式运行只读取本地文件。输入目录保持只读，output目录必须可写。数据为脱敏后重新编排的演练样例，不含线上访客资料、凭据或内部地址。
+
+实现时需要留意两个边界。坏JSON行不能让整个小时批次失败；同一访客相邻事件的间隔只有严格大于session_gap_seconds时才开始新会话。报表窗口和授权窗口都采用左闭右开区间，时间统一按UTC处理。

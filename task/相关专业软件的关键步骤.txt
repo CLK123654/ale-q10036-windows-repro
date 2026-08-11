@@ -1,0 +1,7 @@
+1. 使用Node.js24LTS读取privacy_policy.json、consent_windows.csv和route_catalog.csv，校验报表时间、匿名键长度、会话间隔和路由规则。
+2. 将edge_access.ndjson.gz接入createReadStream、createGunzip和readline，逐行解析NDJSON并保留原始行号。
+3. 以event_id归并事件版本，比较updated_at_utc；时间相同的版本保留行号较大的记录，同时记录被替换版本。
+4. 按合同顺序检查报表窗口、授权状态、删除请求、授权时间、路由、机器人标识和ASN，将未通过记录写入抑制清单。
+5. 对接受事件计算截断后的HMAC-SHA256匿名键，按发生时间排序后依据会话间隔生成session_id。
+6. 写出规范事件、抑制记录和会话清单，再按小时与route_group汇总请求数、会话数、字节数、5xx数量和P95时延。
+7. 生成run_summary.json，确认输入行、解析成功行、接受事件、抑制记录和派生报表可以相互核对，再通过run.ps1从空output目录完整运行一次。

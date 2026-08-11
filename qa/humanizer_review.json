@@ -1,0 +1,28 @@
+{
+  "review_method": "humanizer-zh完整规则人工复核",
+  "online_ai_detection_used_as_conclusion": false,
+  "reviewed_natural_language_sources": 233,
+  "score": 48,
+  "maximum_score": 50,
+  "threshold": 45,
+  "dimensions": {
+    "directness": 5,
+    "specificity": 5,
+    "cohesion": 5,
+    "natural_tone": 4,
+    "restrained_framing": 5,
+    "clear_attribution": 5,
+    "non_formulaic_structure": 4,
+    "mixed_boundary_spacing": 5,
+    "quote_usage": 5,
+    "business_realism": 5
+  },
+  "review_notes": [
+    "标题直接说明日志处理工作，没有宣传性前缀或复核口号",
+    "概要交代故障、负责团队、交付物使用人和业务后果",
+    "Prompt只保留候选人完成任务所需的业务事实，没有写入固定计数或标准答案",
+    "任务规格只有模块与规格内容两列，没有学科、难度、质检状态或线上表字段",
+    "题面、输入说明、评分表和两份工作簿均未发现模板化三段式、模糊归因、否定式排比或夸张措辞"
+  ],
+  "pass": true
+}

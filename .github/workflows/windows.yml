@@ -1,0 +1,38 @@
+name: windows-2025-node-reproduction
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: windows-2025
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Run independent Windows gate
+        shell: pwsh
+        run: |
+          ./scripts/windows_gate.ps1 `
+            -RepositoryRoot $env:GITHUB_WORKSPACE `
+            -EvidenceRoot (Join-Path $env:RUNNER_TEMP 'ale-evidence')
+
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-2025-evidence
+          path: ${{ runner.temp }}/ale-evidence
+          if-no-files-found: error
+          retention-days: 30

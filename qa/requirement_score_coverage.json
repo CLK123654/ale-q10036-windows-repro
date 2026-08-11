@@ -1,0 +1,40 @@
+{
+  "task_asset_id": "node_edge_log_session_report",
+  "requirements": [
+    {
+      "requirement": "提交Node.js主程序、PowerShell入口和五份规定报表",
+      "score_items": [1]
+    },
+    {
+      "requirement": "从Gzip流逐行读取，坏行续跑并归并事件版本",
+      "score_items": [2]
+    },
+    {
+      "requirement": "按合同执行隐私、机器人和路由裁决，不泄露visitor_id",
+      "score_items": [3, 4]
+    },
+    {
+      "requirement": "计算HMAC匿名键并规范化路由",
+      "score_items": [4]
+    },
+    {
+      "requirement": "按访客和时间切分会话",
+      "score_items": [5]
+    },
+    {
+      "requirement": "生成小时路由指标",
+      "score_items": [6]
+    },
+    {
+      "requirement": "运行摘要与业务报表守恒且重复运行稳定",
+      "score_items": [7]
+    },
+    {
+      "requirement": "缺失输入失败且会话规则变化能重算结果",
+      "score_items": [8]
+    }
+  ],
+  "unscored_public_requirements": [],
+  "score_items_without_public_requirement": [],
+  "pass": true
+}
