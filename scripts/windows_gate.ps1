@@ -308,6 +308,58 @@ function Invoke-CleanRun {
   }
 }
 
+function Invoke-CrlfRun {
+  $workspace = Expand-TaskWorkspace '换行兼容 中文 空格'
+  $expectedRoot = Save-ExpectedReports $workspace
+  $inputRoot = Join-Path $workspace 'input_data'
+  foreach ($relative in @('policy/consent_windows.csv', 'catalog/route_catalog.csv')) {
+    $file = Join-Path $inputRoot $relative
+    $text = [System.IO.File]::ReadAllText($file).Replace("`r`n", "`n").Replace("`n", "`r`n")
+    [System.IO.File]::WriteAllText($file, $text, [System.Text.UTF8Encoding]::new($false))
+  }
+  $outputRoot = Join-Path $workspace 'output'
+  & (Join-Path $outputRoot 'run.ps1') -InputRoot $inputRoot -OutputRoot $outputRoot | Out-Host
+  $actual = Get-ReportSemantics (Join-Path $outputRoot 'reports')
+  $expected = Get-ReportSemantics $expectedRoot
+  Assert-ReportSemantics $actual $expected 'CRLF input'
+  return [ordered]@{
+    files = @('policy/consent_windows.csv', 'catalog/route_catalog.csv')
+    reference_match = $true
+    exit_code = 0
+    pass = $true
+  }
+}
+
+function Invoke-PositiveMutation {
+  $workspace = Expand-TaskWorkspace '策略变化 中文 空格'
+  Save-ExpectedReports $workspace | Out-Null
+  $inputRoot = Join-Path $workspace 'input_data'
+  $policyPath = Join-Path $inputRoot 'policy/privacy_policy.json'
+  $policy = Get-Content -LiteralPath $policyPath -Raw | ConvertFrom-Json
+  $beforeGap = [int]$policy.session_gap_seconds
+  $policy.session_gap_seconds = 1200
+  $policy | ConvertTo-Json -Depth 20 | Set-Content -LiteralPath $policyPath -Encoding utf8NoBOM
+  $outputRoot = Join-Path $workspace 'output'
+  & (Join-Path $outputRoot 'run.ps1') -InputRoot $inputRoot -OutputRoot $outputRoot | Out-Host
+  $summary = Get-Content -LiteralPath (Join-Path $outputRoot 'reports/run_summary.json') -Raw | ConvertFrom-Json
+  $events = @(Get-Content -LiteralPath (Join-Path $outputRoot 'reports/normalized_events.ndjson') |
+    Where-Object { $_.Trim().Length -gt 0 } |
+    ForEach-Object { $_ | ConvertFrom-Json })
+  $eventTwo = $events | Where-Object { $_.event_id -eq 'E002' } | Select-Object -First 1
+  $eventThree = $events | Where-Object { $_.event_id -eq 'E003' } | Select-Object -First 1
+  Assert-True ($null -ne $eventTwo -and $null -ne $eventThree) 'mutation check events missing'
+  Assert-True ($eventTwo.session_id -eq $eventThree.session_id) 'session gap mutation did not join E002 and E003'
+  Assert-True ([int]$summary.session_count -eq 7) 'session gap mutation did not change session count to 7'
+  return [ordered]@{
+    rule = 'session_gap_seconds'
+    before = $beforeGap
+    after = 1200
+    behavior_changed = $true
+    observed = 'E002与E003合并为同一会话，会话数从8变为7'
+    pass = $true
+  }
+}
+
 function Invoke-NegativeRun {
   $workspace = Expand-TaskWorkspace '缺失输入 中文 空格'
   Save-ExpectedReports $workspace | Out-Null
@@ -443,8 +495,13 @@ try {
   Assert-True (-not $sourceText.Contains('child_process')) 'external process dependency found in Node.js source'
   $evidence.compatibility_scan = [ordered]@{ linux_artifacts = 0; required_node_tokens = 4; pass = $true }
 
-  $businessRun = Invoke-CleanRun '边缘 小时报表'
-  $evidence.business_run = $businessRun
+  $cleanRunA = Invoke-CleanRun '边缘 报表甲'
+  $cleanRunB = Invoke-CleanRun '边缘 报表乙 中文 空格'
+  Assert-ReportSemantics $cleanRunA.semantics $cleanRunB.semantics 'two clean directories'
+  $evidence.clean_room_runs = @($cleanRunA, $cleanRunB)
+  $evidence.structured_semantics_equal = $true
+  $evidence.crlf = Invoke-CrlfRun
+  $evidence.positive_mutation = Invoke-PositiveMutation
   $evidence.negative = Invoke-NegativeRun
   $evidence.pass = $true
   Write-Evidence $evidence
