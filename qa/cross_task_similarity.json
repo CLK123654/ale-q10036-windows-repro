@@ -1,0 +1,40 @@
+{
+  "gate": "cross_task_similarity",
+  "current_qid": "10036",
+  "comparison_count": 217,
+  "method": "NFKC归一化后计算标题3字片段与正文5字片段Dice相似度",
+  "thresholds": {
+    "body": 0.55,
+    "title": 0.72
+  },
+  "top_five": [
+    {
+      "qid": "10574",
+      "body_score": 0.0409,
+      "title_score": 0.2593
+    },
+    {
+      "qid": "13758",
+      "body_score": 0.0186,
+      "title_score": 0.2326
+    },
+    {
+      "qid": "10707",
+      "body_score": 0.0495,
+      "title_score": 0.2273
+    },
+    {
+      "qid": "10776",
+      "body_score": 0.0402,
+      "title_score": 0.2273
+    },
+    {
+      "qid": "13741",
+      "body_score": 0.0221,
+      "title_score": 0.2273
+    }
+  ],
+  "threshold_hits": [],
+  "pass": true,
+  "final_global_rescan_required": true
+}

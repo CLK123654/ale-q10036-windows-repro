@@ -26,11 +26,11 @@
       "score_items": [6]
     },
     {
-      "requirement": "运行摘要与业务报表守恒且重复运行稳定",
+      "requirement": "运行摘要与业务报表满足计数、字节和会话守恒",
       "score_items": [7]
     },
     {
-      "requirement": "缺失输入失败且会话规则变化能重算结果",
+      "requirement": "入口检查主要输入且会话间隔读取隐私策略",
       "score_items": [8]
     }
   ],

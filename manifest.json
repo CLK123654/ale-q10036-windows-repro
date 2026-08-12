@@ -4,9 +4,9 @@
   "node_version": "24",
   "windows_entry": "output/run.ps1",
   "attachments": {
-    "输入数据包.zip": "2c6344c5b515da39d4a125e4bec672909c378fd0bc9da8bc2b04876235d7046d",
-    "reference.zip": "e09b81b44d1f2ef2bc958cdd200f4c95ab0b3e604dcec20bb7f055ad6ca935f4",
-    "关键标准答案.xlsx": "013b1e9f4658630ce85c65b4b7992e0b80c0a7779d992939551b0e9b2cb8fc9e",
-    "任务规格转化.xlsx": "2a71a0bd57e85344f481a01a503fbf32bd565a65e187a58dbd49ef69af4e2981"
+    "输入数据包.zip": "e2292c8e6491ae7624edbcf992dc51f49923c2e36aae97042efb292fda4326a6",
+    "reference.zip": "ea21101f98ae6353d4a0f2351ad20456a36edddee035d2df49292d627e0652b7",
+    "关键标准答案.xlsx": "bfeb2eff5df2a31f4df84052e3005e7a97a3dc4cc22d75ac135fb3e51dd6e6d7",
+    "任务规格转化.xlsx": "5f8e2440f7ae0be1787f53e693c0884b785901d3cbd805699f5c245379d35348"
   }
 }

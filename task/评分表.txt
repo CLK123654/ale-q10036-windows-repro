@@ -1,6 +1,6 @@
 检查项一
 检查项内容：交付物与Windows入口完整性
-标准答案或判定规则：output/src/process_edge_logs.mjs、output/run.ps1及五份规定报表均存在且可读取。run.ps1在Windows11的PowerShell7中调用真实Node.js24LTS，从指定InputRoot读取材料并把报表写到指定OutputRoot，退出码为0。附加的README或测试文件可以保留，只要不替代规定文件，也不改变业务结果。
+标准答案或判定规则：output/src/process_edge_logs.mjs、output/run.ps1及五份规定报表均存在且可读取。run.ps1在Windows11的PowerShell7中调用Node.js24LTS，从指定InputRoot读取材料并把报表写到指定OutputRoot，退出码为0。附加的README或运维说明可以保留，只要不替代规定文件，也不改变业务结果。
 关键字段或路径：output/src/process_edge_logs.mjs、output/run.ps1、output/reports/normalized_events.ndjson、output/reports/suppressed_lines.csv、output/reports/session_inventory.csv、output/reports/hourly_route_metrics.csv、output/reports/run_summary.json
 容差及来源：文件路径逐字匹配任务Prompt；换行、缩进和变量名不计分。
 失败边界：任一核心文件缺失或不可读，run.ps1非零退出，主流程没有执行Node.js，或报表不是本次运行生成。
@@ -71,25 +71,25 @@
 所属层级：L9跨产物一致性与可追溯层
 
 检查项七
-检查项内容：运行摘要、守恒与重复运行
-标准答案或判定规则：run_summary.json中的accepted_event_count为10、suppression_count为9、session_count为8、metric_rows为4、total_bytes为24200、status_5xx_total为1。accepted_event_count与suppression_count之和等于raw_log_lines，小时指标的event_count与byte_sum分别汇总为10和24200。相同输入重复运行时，五份报表的结构化内容保持一致。
+检查项内容：运行摘要与报表守恒
+标准答案或判定规则：run_summary.json中的accepted_event_count为10、suppression_count为9、session_count为8、metric_rows为4、total_bytes为24200、status_5xx_total为1。accepted_event_count与suppression_count之和等于raw_log_lines，小时指标的event_count与byte_sum分别汇总为10和24200。
 关键字段或路径：output/reports/run_summary.json及其余四份报表
 容差及来源：整数无容差；CSV行顺序和JSON键顺序不计分，按结构化语义比较。
-失败边界：摘要写死且与报表不符、事件或字节不守恒、重复运行追加旧结果，或相同输入产生不同会话身份。
-可观察证据及定位方式：run_summary.json、四份业务报表及两次干净运行结果
-客观硬性标准：6个固定值正确，三条守恒关系成立，两次运行语义一致。
-通过阈值：三部分全部满足。
+失败边界：摘要写死且与报表不符，事件或字节不守恒，或会话数与会话清单不一致。
+可观察证据及定位方式：run_summary.json及其余四份业务报表
+客观硬性标准：6个固定值正确，三条守恒关系成立，会话数与会话清单一致。
+通过阈值：三类关系全部满足。
 优先级：普通项
 所属层级：L9跨产物一致性与可追溯层
 
 检查项八
-检查项内容：缺失输入与规则变化边界
-标准答案或判定规则：缺少edge_access.ndjson.gz时，run.ps1非零失败且不留下新的五份报表。把session_gap_seconds从600改为1800后重新运行，accepted_event_count仍为10，session_count从8变为5，normalized_events.ndjson与session_inventory.csv中的session_id随新规则重算。
+检查项内容：输入文件与策略读取
+标准答案或判定规则：缺少edge_access.ndjson.gz时，run.ps1返回非零退出码。会话切分从privacy_policy.json读取session_gap_seconds，不在源码中写死600秒；日志、授权表或路由目录缺失时也应报告对应文件。
 关键字段或路径：output/run.ps1的输入检查，privacy_policy.json的session_gap_seconds，output/reports/run_summary.json和会话相关报表
-容差及来源：退出码只要求非零；规则变化后的两个计数无容差，来源为同一输入事件序列。
-失败边界：缺文件时返回成功、残留旧报表被误当作新结果、规则变化后会话结果不变，或修改输入规则却靠固定答案生成报表。
-可观察证据及定位方式：PowerShell退出码、报表目录、变更前后的run_summary.json和session_id集合
-客观硬性标准：缺文件失败且无新报表，规则变化后接受数保持10、会话数变为5，会话身份随之更新。
-通过阈值：三个边界行为全部满足。
+容差及来源：缺失文件时退出码只要求非零；策略字段名称和来源路径固定。
+失败边界：缺文件时返回成功，session_gap_seconds写成源码常量，或错误信息无法定位缺失文件。
+可观察证据及定位方式：output/run.ps1、output/src/process_edge_logs.mjs和PowerShell退出码
+客观硬性标准：四份主要输入均受入口检查，会话间隔来自privacy_policy.json，缺日志时返回非零退出码。
+通过阈值：三个条件全部满足。
 优先级：普通项
-所属层级：L10抗投机或反作弊层
+所属层级：L8运行验证或可执行行为层

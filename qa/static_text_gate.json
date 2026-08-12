@@ -1,6 +1,6 @@
 {
   "gate": "natural_language_static_scan",
-  "source_count": 233,
+  "source_count": 237,
   "missing": [],
   "violations": [],
   "humanizer_risk_hits": [],

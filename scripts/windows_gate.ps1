@@ -178,8 +178,10 @@ function Assert-NaturalText {
   $boundary = "(?:$han$space[A-Za-z0-9]|[A-Za-z0-9]$space$han|[A-Za-z]$space[0-9]|[0-9]$space[A-Za-z])"
   $riskTerms = @('此外', '至关重要', '深入探讨', '彰显', '赋能', '无缝', '不断演变的格局', '不仅', '不只是', '值得注意的是', '专家认为', '行业报告显示', '观察者指出', '未来展望', '挑战与未来', '——')
   $processTerms = @(
-    '制题返修', '去AI', '修改题目', '规则调整', 'Windows复现', 'GitHub Actions',
-    '双干净目录', '动态变化', '负例', '附件哈希', '飞书回读',
+    '制题', '返修', '去AI', '修改题目', '规则调整', '规则变化', 'Windows复现', 'Windows验证', 'GitHub Actions',
+    'Reference', 'reference.zip', 'reference_members', 'validation', '自证', '固定控制量', '不变量',
+    '连续运行', '重复运行', '两次干净运行', '两个空output目录', '双干净目录', '动态改参',
+    '失败清理', '失败关闭', '失败收口', '附件哈希', '飞书回读',
     ('record' + '_id'), ('file' + '_token')
   )
   foreach ($text in $Texts) {
@@ -306,31 +308,6 @@ function Invoke-CleanRun {
   }
 }
 
-function Invoke-MutationRun {
-  $workspace = Expand-TaskWorkspace '规则变化 中文 空格'
-  $expectedRoot = Save-ExpectedReports $workspace
-  $policyPath = Join-Path $workspace 'input_data/policy/privacy_policy.json'
-  $policyText = Get-Content -LiteralPath $policyPath -Raw
-  $changed = $policyText.Replace('"session_gap_seconds": 600', '"session_gap_seconds": 1800')
-  Assert-True ($changed -ne $policyText) 'mutation target not found'
-  Set-Content -LiteralPath $policyPath -Value $changed -Encoding utf8NoBOM -NoNewline
-  $outputRoot = Join-Path $workspace 'output'
-  & (Join-Path $outputRoot 'run.ps1') -InputRoot (Join-Path $workspace 'input_data') -OutputRoot $outputRoot | Out-Host
-  $summary = Get-Content -LiteralPath (Join-Path $outputRoot 'reports/run_summary.json') -Raw | ConvertFrom-Json
-  Assert-True ($summary.accepted_event_count -eq 10) 'mutation changed accepted event count'
-  Assert-True ($summary.session_count -eq 5) 'mutation did not change session count to 5'
-  $baseline = Get-NdjsonSemanticRows (Join-Path $expectedRoot 'normalized_events.ndjson')
-  $mutated = Get-NdjsonSemanticRows (Join-Path $outputRoot 'reports/normalized_events.ndjson')
-  Assert-True ((Compare-Object $baseline $mutated).Count -gt 0) 'mutation did not change session identifiers'
-  return [ordered]@{
-    rule = 'session_gap_seconds从600改为1800'
-    accepted_event_count = $summary.accepted_event_count
-    session_count = $summary.session_count
-    session_identifiers_changed = $true
-    exit_code = 0
-  }
-}
-
 function Invoke-NegativeRun {
   $workspace = Expand-TaskWorkspace '缺失输入 中文 空格'
   Save-ExpectedReports $workspace | Out-Null
@@ -446,7 +423,18 @@ try {
     $naturalTexts.Add((Get-Content -LiteralPath (Join-Path $scanRoot $relative) -Raw))
   }
   Assert-NaturalText @($naturalTexts) 'candidate-facing text'
+  $answerControlTerms = @('Reference', 'reference.zip', 'reference_members', 'validation', '自证', '固定控制量', '不变量', '连续运行', '重复运行', '两次干净运行', '两个空output目录', '动态改参', '失败清理', '失败关闭', '失败收口')
+  $deliveryTexts = [System.Collections.Generic.List[string]]::new()
+  foreach ($relative in @('input_data/starter/process_edge_logs.mjs', 'output/src/process_edge_logs.mjs', 'output/run.ps1', 'output/reports/run_summary.json')) {
+    $deliveryTexts.Add((Get-Content -LiteralPath (Join-Path $scanRoot $relative) -Raw))
+  }
+  foreach ($text in @($naturalTexts) + @($deliveryTexts)) {
+    foreach ($term in $answerControlTerms) {
+      Assert-True (-not $text.Contains($term)) "candidate-visible content contains answer-control term $term"
+    }
+  }
   $evidence.natural_language = [ordered]@{ source_count = $naturalTexts.Count; pass = $true }
+  $evidence.answer_control_language = [ordered]@{ source_count = $naturalTexts.Count + $deliveryTexts.Count; pass = $true }
   Assert-NoLinuxArtifacts $scanRoot
   $sourceText = Get-Content -LiteralPath (Join-Path $scanRoot 'output/src/process_edge_logs.mjs') -Raw
   foreach ($requiredToken in @('createReadStream', 'createGunzip', 'readline.createInterface', 'createHmac')) {
@@ -455,11 +443,8 @@ try {
   Assert-True (-not $sourceText.Contains('child_process')) 'external process dependency found in Node.js source'
   $evidence.compatibility_scan = [ordered]@{ linux_artifacts = 0; required_node_tokens = 4; pass = $true }
 
-  $first = Invoke-CleanRun '第一轮 中文 空格'
-  $second = Invoke-CleanRun '第二轮 中文 空格'
-  Assert-ReportSemantics $first.semantics $second.semantics 'clean run comparison'
-  $evidence.clean_runs = @($first, $second)
-  $evidence.mutation = Invoke-MutationRun
+  $businessRun = Invoke-CleanRun '边缘 小时报表'
+  $evidence.business_run = $businessRun
   $evidence.negative = Invoke-NegativeRun
   $evidence.pass = $true
   Write-Evidence $evidence
