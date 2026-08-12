@@ -39,5 +39,6 @@
     "item_count": 8,
     "semantic_change_required": false,
     "note": "现有评分项覆盖Prompt交付链，未发现需要合并的重复项或遗漏要求"
-  }
+  },
+  "environment_change_scope": "答题者完成业务所需的通用运行条件，不含工程验证环境"
 }

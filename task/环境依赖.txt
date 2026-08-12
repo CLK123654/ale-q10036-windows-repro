@@ -1,9 +1,5 @@
-Windows11、macOS13及主流64位Linux均可运行。Windows11直接使用Node.js24LTS和PowerShell7，不依赖WSL、容器、Bash或POSIX Shell。
+操作系统：Windows11、macOS或主流64位Linux。主软件为Node.js，使用兼容Node.js24LTS的运行时；Windows11可用PowerShell7执行run.ps1，不依赖WSL、容器或POSIX Shell。
 
-主软件是Node.js。Gzip流解压、readline异步迭代、HMAC-SHA256和文件系统操作均由Node.js内置模块完成，不需要第三方npm包。Windows入口为run.ps1，macOS和Linux可以直接调用process_edge_logs.mjs并传入相同的输入、输出目录。
+程序只使用Node.js内置的文件系统、路径、流、Gzip、readline和crypto模块，不需要第三方npm包。输入目录保持只读，output目录可写，处理期间不连接边缘网关或其它外部服务。
 
-安装Node.js24LTS时可以联网，正式运行只读取本地文件。输入目录保持只读，output目录必须可写。数据为脱敏后重新编排的演练样例，不含线上访客资料、凭据或内部地址。
-
-实现时需要留意两个边界。坏JSON行不能让整个小时批次失败；同一访客相邻事件的间隔只有严格大于session_gap_seconds时才开始新会话。报表窗口和授权窗口都采用左闭右开区间，时间统一按UTC处理。
-
-普通双核CPU和2GB内存即可处理当前压缩日志，不使用GPU。除Node.js安装目录外，建议预留500MB可写磁盘给解压流缓冲和报表；单次入口最长运行1分钟，超过时应检查文件读取或流管道是否停滞。
+当前压缩日志适合普通64位多核CPU和常规办公内存，流式解压无需GPU。磁盘需要容纳压缩输入、处理缓冲和五份报表。入口应设置有限超时；超过时应检查Gzip读取、逐行迭代或文件写入是否停滞。
