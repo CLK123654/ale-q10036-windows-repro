@@ -1,4 +1,4 @@
-操作系统：Windows11、macOS或主流64位Linux。
+操作系统： Windows11、macOS或主流64位Linux。
 
 主软件为Node.js，使用兼容Node.js24LTS的运行时；Windows11可用PowerShell7执行run.ps1，不依赖WSL、容器或POSIX Shell。
 
