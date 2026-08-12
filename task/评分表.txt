@@ -1,7 +1,6 @@
 总分100分
 
-检查项一
-检查项内容：交付物与运行入口完整性
+1. 交付物与运行入口完整性
 分值：14分
 标准答案或判定规则：output/src/process_edge_logs.mjs、output/run.ps1及五份规定报表均存在且可读取。PowerShell入口调用Node.js24LTS，从指定InputRoot读取材料并把报表写到指定OutputRoot，退出码为0。附加的README或运维说明可以保留，只要不替代规定文件，也不改变业务结果。
 关键字段或路径：output/src/process_edge_logs.mjs、output/run.ps1、output/reports/normalized_events.ndjson、output/reports/suppressed_lines.csv、output/reports/session_inventory.csv、output/reports/hourly_route_metrics.csv、output/reports/run_summary.json
@@ -13,8 +12,7 @@
 优先级：Gate项
 所属层级：L1任务指令遵循层
 
-检查项二
-检查项内容：Gzip流读取、坏行续跑与事件版本归并
+2. Gzip流读取、坏行续跑与事件版本归并
 分值：15分
 标准答案或判定规则：edge_access.ndjson.gz通过createReadStream、createGunzip和逐行异步读取链处理，不能先把压缩文件或完整解压文本读入内存。raw_log_lines与物理行数一致，parsed_json_lines只排除无法解析的行。相同event_id按updated_at_utc选择较新版本，时间相同时保留行号较大的记录，被替换版本进入抑制清单。
 关键字段或路径：output/src/process_edge_logs.mjs的日志读取链，output/reports/suppressed_lines.csv，output/reports/run_summary.json
@@ -26,8 +24,7 @@
 优先级：高权重项
 所属层级：L8运行验证或可执行行为层
 
-检查项三
-检查项内容：隐私授权、机器人和路由抑制
+3. 隐私授权、机器人和路由抑制
 分值：14分
 标准答案或判定规则：suppressed_lines.csv收录坏行、被替换版本，以及未通过报表窗口、授权状态、删除请求、授权时间、路由、机器人标识或ASN规则的记录。每个胜出版本只出现一个最终reason，原因取首个命中的合同规则。
 关键字段或路径：output/reports/suppressed_lines.csv中的line_no、event_id、reason、detail
@@ -39,8 +36,7 @@
 优先级：高权重项
 所属层级：L4数据清洗与质量控制层
 
-检查项四
-检查项内容：匿名键、路由规范化与接受事件集合
+4. 匿名键、路由规范化与接受事件集合
 分值：14分
 标准答案或判定规则：normalized_events.ndjson只包含通过版本、隐私、机器人和路由裁决的事件。visitor_key按privacy_policy.json指定的HMAC算法、密钥和截断长度生成。canonical_path去除查询参数，并使用route_catalog.csv命中的参数化路径。
 关键字段或路径：output/reports/normalized_events.ndjson中的event_id、visitor_key、route_key、route_group、canonical_path
@@ -52,8 +48,7 @@
 优先级：高权重项
 所属层级：L6领域计算与专业规则层
 
-检查项五
-检查项内容：会话切分与会话清单
+5. 会话切分与会话清单
 分值：13分
 标准答案或判定规则：接受事件按visitor_key分组，再按occurred_at_utc与业务稳定键排序。相邻事件间隔严格大于privacy_policy.json中的session_gap_seconds时开始新会话，等于阈值时仍属于原会话。session_inventory.csv可由规范事件按session_id复算。
 关键字段或路径：output/reports/normalized_events.ndjson中的session_id，output/reports/session_inventory.csv中的first_event_utc、last_event_utc、event_count
@@ -65,8 +60,7 @@
 优先级：高权重项
 所属层级：L7产物结构或Schema或专业对象层
 
-检查项六
-检查项内容：小时路由指标
+6. 小时路由指标
 分值：16分
 标准答案或判定规则：hourly_route_metrics.csv按规范事件的UTC小时与route_group分组，计算事件数、去重会话数、字节和、5xx数量和nearest-rank口径的P95时延。报告主键集合与接受事件实际覆盖的小时和路由组一致。
 关键字段或路径：output/reports/hourly_route_metrics.csv的hour_utc、route_group、event_count、session_count、byte_sum、status_5xx、p95_duration_ms
@@ -78,8 +72,7 @@
 优先级：高权重项
 所属层级：L9跨产物一致性与可追溯层
 
-检查项七
-检查项内容：运行摘要与报表守恒
+7. 运行摘要与报表守恒
 分值：8分
 标准答案或判定规则：run_summary.json记录原始行、解析行、接受事件、抑制记录、会话、指标行、总字节和5xx总数。各值从对应业务报表复算，接受事件与抑制记录共同解释全部物理日志行，小时指标汇总与规范事件一致。
 关键字段或路径：output/reports/run_summary.json及其余四份报表
@@ -91,8 +84,7 @@
 优先级：普通项
 所属层级：L9跨产物一致性与可追溯层
 
-检查项八
-检查项内容：输入文件与策略读取
+8. 输入文件与策略读取
 分值：6分
 标准答案或判定规则：缺少edge_access.ndjson.gz时，run.ps1返回非零退出码。会话切分从privacy_policy.json读取session_gap_seconds，不在源码中写死600秒；日志、授权表或路由目录缺失时也应报告对应文件。
 关键字段或路径：output/run.ps1的输入检查，privacy_policy.json的session_gap_seconds，output/reports/run_summary.json和会话相关报表
