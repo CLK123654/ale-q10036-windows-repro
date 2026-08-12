@@ -1,6 +1,6 @@
 操作系统： Windows11、macOS或主流64位Linux。
 
-主软件为Node.js，使用兼容Node.js24LTS的运行时；Windows11可用PowerShell7执行run.ps1，不依赖WSL、容器或POSIX Shell。
+主软件为Node.js，使用兼容Node.js24LTS的运行时；Windows11可用PowerShell7执行run.ps1。
 
 程序只使用Node.js内置的文件系统、路径、流、Gzip、readline和crypto模块，不需要第三方npm包。输入目录保持只读，output目录可写，处理期间不连接边缘网关或其它外部服务。
 
