@@ -1,5 +1,7 @@
-操作系统：Windows11、macOS或主流64位Linux。主软件为Node.js，使用兼容Node.js24LTS的运行时；Windows11可用PowerShell7执行run.ps1，不依赖WSL、容器或POSIX Shell。
+操作系统：Windows11、macOS或主流64位Linux。
+
+主软件为Node.js，使用兼容Node.js24LTS的运行时；Windows11可用PowerShell7执行run.ps1，不依赖WSL、容器或POSIX Shell。
 
 程序只使用Node.js内置的文件系统、路径、流、Gzip、readline和crypto模块，不需要第三方npm包。输入目录保持只读，output目录可写，处理期间不连接边缘网关或其它外部服务。
 
-当前压缩日志适合普通64位多核CPU和常规办公内存，流式解压无需GPU。磁盘需要容纳压缩输入、处理缓冲和五份报表。入口应设置有限超时；超过时应检查Gzip读取、逐行迭代或文件写入是否停滞。
+当前压缩日志适合普通64位多核CPU和常规办公内存，流式解压无需GPU。磁盘需要容纳压缩输入、处理缓冲和五份报表。需设置有限超时，覆盖本题批次处理并避免异常无限等待。
